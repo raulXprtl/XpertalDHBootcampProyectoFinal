@@ -1,0 +1,191 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package controller{
+    class FlightController{
+    + getFlights(LocalDate dateFrom, LocalDate dateTo, String origin, String destination)
+    + postFlightReservation(FlightRequestDTO request)
+    }
+    class HotelController{
+    + getHotels(LocalDate dateFrom, LocalDate dateTo, String destination)
+    + postBooking(HotelRequestDTO request)
+    }
+}
+
+package dto{
+    class PaymentMethodDTO{
+    - type : String
+    - number : String
+    - dues : Integer
+    }
+    class PersonDTO{
+    - dni : String
+    - name : String
+    - lastname : String
+    - birthDate : LocalDate
+    - mail : String
+    }
+    class StatusCodeDTO{
+    - code : Integer
+    - message : String
+    }
+}
+package dto.flight{
+    class FlightDTO{
+    - flightNumber : String
+    - origin : String
+    - destination : String
+    - seatType : String
+    - pricePerPerson : Double
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    }
+    class FlightRequestDTO{
+    - userName : String
+    }
+    class FlightReservationBaseDTO{
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    - origin : String
+    - destination : String
+    - flightNumber : String
+    - seats : Integer
+    - seatType : String
+    }
+    class FlightReservationRequestDTO extends FlightReservationBaseDTO{
+    }
+    class FlightResponseDTO {
+    - userName : String
+    - amount : Double
+    - interest : Double
+    - total : Double
+    + setFlightReservation(FlightReservationRequestDTO flightReservation)
+    }
+}
+package dto.hotel{
+    class BookingBaseDTO{
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    - destination : String
+    - hotelCode : String
+    - peopleAmount : Integer
+    - roomType : String
+    }
+    class BookingRequestDTO extends BookingBaseDTO{
+    }
+    class HotelDTO{
+    - hotelId : String
+    - name : String
+    - location : String
+    - roomType : String
+    - pricePerNight : Integer
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    - reserved : Boolean
+    }
+    class HotelRequestDTO{
+    - userName : String
+    }
+    class HotelResponseDTO{
+    - userName : String
+    - amount : Double
+    - interest : Double
+    - total : Double
+    + setBooking(BookingRequestDTO booking)
+    }
+}
+
+package entity{
+    class Flight{
+    - flightId : long
+    - flightNumber : String
+    - origin: String
+    - destination: String
+    - seatType : String
+    - pricePerPerson : Double
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    }
+    class Hotel{
+    - hotelCode : String
+    - name : String
+    - location : String
+    - roomType : String
+    - pricePerNight : Integer
+    - dateFrom : LocalDate
+    - dateTo : LocalDate
+    - reserved : Boolean
+    }
+}
+
+package repository{
+    interface FlightRepository extends JpaRepository
+    interface HotelRepository extends JpaRepository
+}
+
+package service{
+    interface FlightService {
+    + getFlights()
+    + getFlightsAvailable(LocalDate dateFrom, LocalDate dateTo, String origin, String destination)
+    + postFlightReservation(FlightRequestDTO request)
+    }
+    class FlightServiceImpl implements FlightService {
+    - filterFlights(LocalDate dateFrom, LocalDate dateTo, String origin, String destination, boolean postRequest)
+    }
+    interface HotelService {
+    + getHotels()
+    + getHotelsAvailable(LocalDate dateFrom, LocalDate dateTo, String destination)
+    + postBooking(HotelRequestDTO request)
+    }
+    class HotelServiceImpl implements HotelService {
+    - filterHotels(LocalDate dateFrom, LocalDate dateTo, String location, boolean postRequest)
+    }
+}
+
+package util{
+    class StringUtil {
+    + {static} normalizeString
+    }
+}
+
+class ProyectoFinalApplication {
++ main(String[] args)
+}
+
+FlightController "1" *-- "1" FlightService : contains
+FlightController -- FlightRequestDTO : postFlightReservation
+
+HotelController "1" *-- "1" HotelService : contains
+HotelController -- HotelRequestDTO : postBooking
+
+dto +-- dto.hotel
+dto +-- dto.flight
+
+FlightRequestDTO "1" *-- "1" FlightReservationRequestDTO
+FlightReservationBaseDTO "1" *-- "0..*" PersonDTO
+FlightReservationRequestDTO "1" *-- "1" PaymentMethodDTO
+FlightResponseDTO "1" *-- "1" FlightReservationBaseDTO
+FlightResponseDTO "1" *-- "1" StatusCodeDTO
+
+BookingBaseDTO "1" *-- "0..*" PersonDTO
+BookingRequestDTO "1" *-- "1" PaymentMethodDTO
+HotelRequestDTO "1" *-- "1" BookingRequestDTO
+HotelResponseDTO "1" *-- "1" BookingBaseDTO
+HotelResponseDTO "1" *-- "1" StatusCodeDTO
+
+FlightRepository "1" *-- "0..*" Flight : contains
+HotelRepository "1" *-- "0..*" Hotel : contains
+
+FlightServiceImpl "1" *-- "1" FlightRepository
+FlightServiceImpl -- FlightDTO : getFlights
+FlightServiceImpl -- FlightDTO : getFlightsAvailable
+FlightServiceImpl -- FlightResponseDTO : postFlightReservation
+FlightServiceImpl -up- StringUtil : filterFlights
+
+HotelServiceImpl "1" *-- "1" HotelRepository
+HotelServiceImpl -- HotelDTO : getHotels
+HotelServiceImpl -- HotelDTO : getHotelsAvailable
+HotelServiceImpl -- HotelResponseDTO : postBooking
+HotelServiceImpl -up- StringUtil : filterHotels
+
+@enduml
