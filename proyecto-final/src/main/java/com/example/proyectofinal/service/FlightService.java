@@ -1,9 +1,7 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.flight.FlightDTO;
-import com.example.proyectofinal.dto.flight.FlightGetRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostResponseDTO;
+import com.example.proyectofinal.dto.CrudResponseDTO;
+import com.example.proyectofinal.dto.flight.*;
 
 import java.util.List;
 
@@ -12,5 +10,18 @@ public interface FlightService {
 
     List<FlightDTO> getFlightsAvailable(FlightGetRequestDTO request);
 
-    FlightPostResponseDTO postFlightReservation(FlightPostRequestDTO request);
+    CrudResponseDTO postFlightReservation(FlightPostRequestDTO request);
+
+
+    CrudResponseDTO saveNewFlight(FlightNewPostRequestDTO request);
+
+    CrudResponseDTO updateFlight(String flightNumber, FlightNewPostRequestDTO request);
+
+    CrudResponseDTO deleteFlight(String flightNumber);
+
+    CrudResponseDTO updateReservation(Long idReservation, ReservationUpdateDTO request);
+
+    CrudResponseDTO deleteReservation(Long idReservation);
+
+    List<ReservationDTO> getReservations(); // <-- ERROR porque aun no se crea la entidad Reservation
 }
