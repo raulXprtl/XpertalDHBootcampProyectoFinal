@@ -22,4 +22,9 @@ public class Customer {
     @Column(nullable = true)
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<BookingOrReservation> bookingsOrReservations;
+
+    @JsonManagedReference
+    @Column(nullable = true)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<TouristPack> touristPacks;
 }
