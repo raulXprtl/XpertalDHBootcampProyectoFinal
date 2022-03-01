@@ -1,5 +1,4 @@
 USE agency_db;
-
 INSERT INTO hotels VALUES(1, "Hotel Parque", "Ciudad de Mexico", "King Size", 1200.00, "2022-01-01", "2022-01-05", 1);
 INSERT INTO hotels VALUES(2, "Hotel Amazona", "Monterrey", "Junior", 900.00, "2022-02-01", "2022-02-05", 1);
 INSERT INTO hotels VALUES(3, "Hotel Arizona", "Queretaro", "Simple", 700.00, "2022-03-01", "2022-03-05", 1);
