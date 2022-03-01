@@ -5,18 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class HotelPostRequestDTO {
-    @NotEmpty
-    @Email(message = "Por favor ingrese un e-mail válido",
-            regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-    private String userName;
-    @Valid
-    private BookingRequestDTO booking;
+
+    private String hotelCode;
+    private String name;
+    private String place;
+    private String roomType;
+    private Double roomPrice;
+    private LocalDate disponibilityDateFrom;
+    private LocalDate disponibilityDateTo;
+    private Boolean isBooking;
 }

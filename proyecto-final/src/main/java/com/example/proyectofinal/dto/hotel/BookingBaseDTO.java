@@ -23,6 +23,8 @@ import java.util.List;
                 "la cantidad de personas que se alojarán en ella")
 public class BookingBaseDTO {
 
+    private Long bookingId;
+
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dateFrom;

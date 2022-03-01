@@ -9,17 +9,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Getter @Setter
 @NoArgsConstructor
-public class BookingUpdateDTO {
-
+@AllArgsConstructor
+public class BookingPostRequestDTO {
     @NotEmpty
     @Email(message = "Por favor ingrese un e-mail válido",
             regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
     private String userName;
-
     @Valid
-    private EditableBookingDTO booking;
+    private BookingRequestDTO booking;
 }

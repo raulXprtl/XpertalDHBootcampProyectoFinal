@@ -24,7 +24,7 @@ public class FlightController {
     private FlightService flightService;
 
     //-------------------------------ALTA DE VUELO-------------------------------------
-    @PostMapping(path = "/api/v1/hotels/new")
+    @PostMapping(path = "/api/v1/flights/new")
     public ResponseEntity<CrudResponseDTO> saveNewFlight(@RequestBody FlightNewPostRequestDTO request) {
         return new ResponseEntity<>(this.flightService.saveNewFlight(request), HttpStatus.OK);
     }

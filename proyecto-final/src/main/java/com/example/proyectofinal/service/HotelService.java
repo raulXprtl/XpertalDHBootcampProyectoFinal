@@ -10,18 +10,18 @@ public interface HotelService {
 
     List<HotelDTO> getHotelsAvailable(HotelGetRequestDTO request);
 
-    CrudResponseDTO postBooking(HotelPostRequestDTO request);
+    CrudResponseDTO postBooking(BookingPostRequestDTO request);
 
 
-    CrudResponseDTO saveNewHotel(HotelNewPostRequestDTO request);
+    CrudResponseDTO saveNewHotel(HotelPostRequestDTO request);
 
-    CrudResponseDTO updateHotel(String hotelCode, HotelNewPostRequestDTO request);
+    CrudResponseDTO updateHotel(String hotelCode, HotelPostRequestDTO request);
 
     CrudResponseDTO deleteHotel(String hotelCode);
 
-    CrudResponseDTO updateBooking(Long idBooking, BookingUpdateDTO request);
+    CrudResponseDTO updateBooking(Long idBooking, BookingBaseDTO request);
 
     CrudResponseDTO deleteBooking(Long idBooking);
 
-    List<BookingDTO> getBookings();
+    List<BookingBaseDTO> getBookings();
 }

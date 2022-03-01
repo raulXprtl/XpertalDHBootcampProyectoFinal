@@ -1,8 +1,6 @@
 package com.example.proyectofinal.controller;
 
 import com.example.proyectofinal.dto.CrudResponseDTO;
-import com.example.proyectofinal.dto.flight.FlightCrudResponseDTO;
-import com.example.proyectofinal.dto.flight.FlightNewPostRequestDTO;
 import com.example.proyectofinal.dto.hotel.*;
 import com.example.proyectofinal.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +24,18 @@ public class HotelController {
 
     //-------------------------------ALTA DE HOTEL-------------------------------------
     @PostMapping(path = "/api/v1/hotels/new")
-    public ResponseEntity<CrudResponseDTO> saveNewHotel(@RequestBody HotelNewPostRequestDTO request) {
+    public ResponseEntity<CrudResponseDTO> saveNewHotel(@RequestBody HotelPostRequestDTO request) {
         return new ResponseEntity<>(this.hotelService.saveNewHotel(request), HttpStatus.OK);
     }
 
     //---------------------------MODIFICACION DE HOTEL----------------------------------
     @PutMapping(path = "api/v1/hotels/edit")
-    public ResponseEntity<CrudResponseDTO> updateHotel(@RequestParam String hotelCode, @RequestBody HotelNewPostRequestDTO request) {
+    public ResponseEntity<CrudResponseDTO> updateHotel(@RequestParam String hotelCode, @RequestBody HotelPostRequestDTO request) {
         return new ResponseEntity<>(this.hotelService.updateHotel(hotelCode, request), HttpStatus.OK);
     }
 
     //------------------------------BAJA DE UN HOTEL------------------------------------
-    @DeleteMapping(path = "/api/v1/flights/delete")
+    @DeleteMapping(path = "/api/v1/hotels/delete")
     public ResponseEntity<CrudResponseDTO> deleteHotel(@RequestParam String hotelCode) {
         return new ResponseEntity<>(this.hotelService.deleteHotel(hotelCode), HttpStatus.OK);
     }
@@ -76,14 +74,14 @@ public class HotelController {
      * @return response entity containing processed information.
      */
     @PostMapping(path = "/api/v1/booking")
-    public ResponseEntity<CrudResponseDTO> postBooking(@Valid @RequestBody HotelPostRequestDTO request) {
+    public ResponseEntity<CrudResponseDTO> postBooking(@Valid @RequestBody BookingPostRequestDTO request) {
         return new ResponseEntity<>(this.hotelService.postBooking(request), HttpStatus.OK);
     }
 
     //--------------------------------MODIFICACION DE BOOKING----------------------------------------------
 
     @PutMapping(path = "/api/v1/hotel-booking/edit")
-    public ResponseEntity<CrudResponseDTO> updateBooking(@RequestParam Long id, @RequestBody BookingUpdateDTO request) {
+    public ResponseEntity<CrudResponseDTO> updateBooking(@RequestParam Long id, @RequestBody BookingBaseDTO request) {
         return new ResponseEntity<>(this.hotelService.updateBooking(id, request), HttpStatus.OK);
     }
 
@@ -95,7 +93,7 @@ public class HotelController {
 
     //---------------------------------CONSULTA DE BOOKING---------------------------------------
     @GetMapping(path = "/api/v1/hotel-bookings")
-    public ResponseEntity<List<BookingDTO>> getBookings() {
+    public ResponseEntity<List<BookingBaseDTO>> getBookings() {
         return new ResponseEntity<>(this.hotelService.getBookings(), HttpStatus.OK);
     }
 

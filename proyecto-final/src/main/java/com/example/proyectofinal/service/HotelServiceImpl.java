@@ -1,13 +1,11 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.StatusCodeDTO;
-import com.example.proyectofinal.dto.hotel.HotelDTO;
-import com.example.proyectofinal.dto.hotel.HotelGetRequestDTO;
-import com.example.proyectofinal.dto.hotel.HotelPostRequestDTO;
-import com.example.proyectofinal.dto.hotel.HotelPostResponseDTO;
+import com.example.proyectofinal.dto.CrudResponseDTO;
+import com.example.proyectofinal.dto.hotel.*;
 import com.example.proyectofinal.entity.Hotel;
 import com.example.proyectofinal.repository.HotelRepository;
 import com.example.proyectofinal.util.StringUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,6 +22,7 @@ import java.util.stream.Stream;
 public class HotelServiceImpl implements HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+    private ModelMapper modelMapper = new ModelMapper();
 
     /**
      * This method gets a list of hotels from the local repository.
@@ -31,19 +30,12 @@ public class HotelServiceImpl implements HotelService {
      */
     @Override
     public List<HotelDTO> getHotels() {
-        List<HotelDTO> hotelList = new ArrayList<>();
-        this.hotelRepository.findAll().forEach(hotel -> hotelList.add(new HotelDTO(
-                hotel.getHotelCode(),
-                hotel.getName(),
-                hotel.getLocation(),
-                hotel.getRoomType(),
-                hotel.getPricePerNight(),
-                hotel.getDateFrom(),
-                hotel.getDateTo(),
-                hotel.getReserved())));
-        if (hotelList.size() == 0)
+        List<HotelDTO> hotels = new ArrayList<>();
+        this.hotelRepository.findAll().forEach(hotel -> hotels.add(
+                modelMapper.map(hotel, HotelDTO.class)));
+        if (hotels.size() == 0)
             throw new NoSuchElementException("No se encontraron hoteles");
-        return hotelList;
+        return hotels;
     }
 
     /**
@@ -56,7 +48,7 @@ public class HotelServiceImpl implements HotelService {
         Assert.isTrue(request.getDateTo().compareTo(request.getDateFrom()) >= 0,
                 "La fecha de entrada debe ser menor a la de salida");
 
-        List<HotelDTO> hotelList = new ArrayList<>();
+        List<HotelDTO> hotels = new ArrayList<>();
         Stream<Hotel> hotelStream = filterHotels(
                 request.getDateFrom(),
                 request.getDateTo(),
@@ -65,16 +57,56 @@ public class HotelServiceImpl implements HotelService {
         );
 
         hotelStream = hotelStream.filter(hotel -> !hotel.getReserved());
-        hotelStream.forEach(hotel -> hotelList.add(new HotelDTO(
-                hotel.getHotelCode(),
-                hotel.getName(),
-                hotel.getLocation(),
-                hotel.getRoomType(),
-                hotel.getPricePerNight(),
-                hotel.getDateFrom(),
-                hotel.getDateTo(),
-                hotel.getReserved())));
-        return hotelList;
+        hotelStream.forEach(hotel -> hotels.add(
+                modelMapper.map(hotel, HotelDTO.class)));
+        return hotels;
+    }
+
+    @Override
+    public CrudResponseDTO saveNewHotel(HotelPostRequestDTO request) {
+        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
+
+        HotelDTO hotel = new HotelDTO(
+                request.getHotelCode(),
+                request.getName(),
+                request.getPlace(),
+                request.getRoomType(),
+                request.getRoomPrice(),
+                request.getDisponibilityDateFrom(),
+                request.getDisponibilityDateTo(),
+                request.getIsBooking());
+
+        this.hotelRepository.save(modelMapper.map(hotel, Hotel.class));
+        return response;
+    }
+
+    @Override
+    public CrudResponseDTO updateHotel(String hotelCode, HotelPostRequestDTO request) {
+        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
+
+        Hotel hotel = this.hotelRepository.findById(hotelCode).get();
+        if (request.getName() != null)
+            hotel.setName(request.getName());
+        if (request.getPlace() != null)
+            hotel.setLocation(request.getPlace());
+        if (request.getRoomPrice() != null)
+            hotel.setPricePerNight(request.getRoomPrice());
+        if (request.getDisponibilityDateFrom() != null)
+            hotel.setDateFrom(request.getDisponibilityDateFrom());
+        if (request.getDisponibilityDateTo() != null)
+            hotel.setDateTo(request.getDisponibilityDateTo());
+        if (request.getIsBooking() != null)
+            hotel.setReserved(request.getIsBooking());
+
+        this.hotelRepository.save(hotel);
+        return response;
+    }
+
+    @Override
+    public CrudResponseDTO deleteHotel(String hotelCode) {
+        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
+        this.hotelRepository.deleteById(hotelCode);
+        return response;
     }
 
     /**
@@ -83,8 +115,8 @@ public class HotelServiceImpl implements HotelService {
      * @return response object.
      */
     @Override
-    public HotelPostResponseDTO postBooking(HotelPostRequestDTO request) {
-        HotelPostResponseDTO response = new HotelPostResponseDTO();
+    public CrudResponseDTO postBooking(BookingPostRequestDTO request) {
+        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
 
         // Night count excludes the end date.
         int nights = ((int) request.getBooking().getDateFrom().until(
@@ -98,7 +130,7 @@ public class HotelServiceImpl implements HotelService {
                 true);
 
         if (request.getBooking().getHotelCode() != null)
-            hotelStream = hotelStream.filter(hotel -> hotel.getHotelCode()
+            hotelStream = hotelStream.filter(hotel -> hotel.getHotelId()
                     .equalsIgnoreCase(request.getBooking().getHotelCode()));
         if (request.getBooking().getRoomType() != null)
             hotelStream = hotelStream.filter(hotel -> hotel.getRoomType()
@@ -109,20 +141,27 @@ public class HotelServiceImpl implements HotelService {
         if (hotelOptional.get().getReserved())  // handled by ExceptionHandler
             throw new IllegalArgumentException("Hotel already booked.");
 
-        // Sets response values
-        response.setUserName(request.getUserName());
-        response.setAmount(hotelOptional.get().getPricePerNight().doubleValue() * nights);
-        response.setInterest(request.getBooking().getPaymentMethod().calculateInterest());
-        response.setTotal(response.getAmount() * (1 + response.getInterest() / 100));
-        response.setBooking(request.getBooking());
-        response.setStatusCode(
-                new StatusCodeDTO(200, "El proceso terminó satisfactoriamente"));
-
         // Saves new status to DB.
         hotelOptional.get().setReserved(true);
-        hotelRepository.save(hotelOptional.get());
+        this.hotelRepository.save(hotelOptional.get());
 
         return response;
+    }
+
+    @Override
+    public CrudResponseDTO updateBooking(Long idBooking, BookingBaseDTO request) {
+
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
+    }
+
+    @Override
+    public CrudResponseDTO deleteBooking(Long idBooking) {
+        return null;
+    }
+
+    @Override
+    public List<BookingBaseDTO> getBookings() {
+        return null;
     }
 
     /**

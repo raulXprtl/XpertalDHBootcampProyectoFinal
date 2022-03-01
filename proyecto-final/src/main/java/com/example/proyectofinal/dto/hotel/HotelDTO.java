@@ -14,7 +14,7 @@ public class HotelDTO {
     private String name;
     private String location;
     private String roomType;
-    private Integer pricePerNight;
+    private Double pricePerNight;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private Boolean reserved;

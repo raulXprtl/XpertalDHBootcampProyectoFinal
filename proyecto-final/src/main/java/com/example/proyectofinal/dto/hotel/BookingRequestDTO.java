@@ -28,10 +28,10 @@ public class BookingRequestDTO extends BookingBaseDTO {
         this.setPaymentMethod(paymentMethod);
     }
 
-    public BookingRequestDTO(LocalDate dateFrom, LocalDate dateTo, String destination,
+    public BookingRequestDTO(Long id, LocalDate dateFrom, LocalDate dateTo, String destination,
                              String hotelCode, BigDecimal peopleAmount, String roomType,
                              List<PersonDTO> people, PaymentMethodDTO paymentMethod) {
-        super(dateFrom, dateTo, destination, hotelCode, peopleAmount, roomType, people);
+        super(id, dateFrom, dateTo, destination, hotelCode, peopleAmount, roomType, people);
         this.setPaymentMethod(paymentMethod);
     }
 }

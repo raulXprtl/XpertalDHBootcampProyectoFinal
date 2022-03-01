@@ -18,6 +18,7 @@ public class HotelPostResponseDTO {
 
     public void setBooking(BookingRequestDTO booking) {
         this.booking = new BookingBaseDTO(
+                booking.getBookingId(),
                 booking.getDateFrom(),
                 booking.getDateTo(),
                 booking.getDestination(),
