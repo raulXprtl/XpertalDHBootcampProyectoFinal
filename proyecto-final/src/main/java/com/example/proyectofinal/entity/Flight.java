@@ -1,36 +1,38 @@
 package com.example.proyectofinal.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
-@Table(name = "FLIGHT")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@Table(name = "flights")
 public class Flight {
     @Id
-    @Column(name = "FLIGHT_ID")
+    @Column(name = "id_flight")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long flightId;
-    @Column(name = "FLIGHT_NUMBER")
+    @Column(name = "flight_number")
     private String flightNumber;
-    @Column(name = "ORIGIN")
+    @Column(name = "origin")
     private String origin;
-    @Column(name = "DESTINATION")
+    @Column(name = "destination")
     private String destination;
-    @Column(name = "SEAT_TYPE")
+    @Column(name = "seat_type")
     private String seatType;
-    @Column(name = "PRICE_PER_PERSON")
+    @Column(name = "price_per_person")
     private Double pricePerPerson;
-    @Column(name = "DATE_FROM")
+    @Column(name = "date_from")
     private LocalDate dateFrom;
-    @Column(name = "DATE_TO")
+    @Column(name = "date_to")
     private LocalDate dateTo;
+
+    @JsonManagedReference
+    @Column(nullable = true)
+    @OneToMany(mappedBy = "flight", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Reservation> reservations;
 }
