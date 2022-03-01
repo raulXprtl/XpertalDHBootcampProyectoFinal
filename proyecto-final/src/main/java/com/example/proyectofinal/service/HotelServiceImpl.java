@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -56,112 +54,44 @@ public class HotelServiceImpl implements HotelService {
                 false
         );
 
-        hotelStream = hotelStream.filter(hotel -> !hotel.getReserved());
+        hotelStream = hotelStream.filter(hotel -> !hotel.getIsBooking());
         hotelStream.forEach(hotel -> hotels.add(
                 modelMapper.map(hotel, HotelDTO.class)));
         return hotels;
     }
 
     @Override
-    public CrudResponseDTO saveNewHotel(HotelPostRequestDTO request) {
-        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
-
-        HotelDTO hotel = new HotelDTO(
-                request.getHotelCode(),
-                request.getName(),
-                request.getPlace(),
-                request.getRoomType(),
-                request.getRoomPrice(),
-                request.getDisponibilityDateFrom(),
-                request.getDisponibilityDateTo(),
-                request.getIsBooking());
-
-        this.hotelRepository.save(modelMapper.map(hotel, Hotel.class));
-        return response;
-    }
-
-    @Override
-    public CrudResponseDTO updateHotel(String hotelCode, HotelPostRequestDTO request) {
-        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
-
-        Hotel hotel = this.hotelRepository.findById(hotelCode).get();
-        if (request.getName() != null)
-            hotel.setName(request.getName());
-        if (request.getPlace() != null)
-            hotel.setLocation(request.getPlace());
-        if (request.getRoomPrice() != null)
-            hotel.setPricePerNight(request.getRoomPrice());
-        if (request.getDisponibilityDateFrom() != null)
-            hotel.setDateFrom(request.getDisponibilityDateFrom());
-        if (request.getDisponibilityDateTo() != null)
-            hotel.setDateTo(request.getDisponibilityDateTo());
-        if (request.getIsBooking() != null)
-            hotel.setReserved(request.getIsBooking());
-
-        this.hotelRepository.save(hotel);
-        return response;
-    }
-
-    @Override
-    public CrudResponseDTO deleteHotel(String hotelCode) {
-        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
-        this.hotelRepository.deleteById(hotelCode);
-        return response;
-    }
-
-    /**
-     * This method returns a reponse for a hotel booking request.
-     * @param request contains required request parameters.
-     * @return response object.
-     */
-    @Override
-    public CrudResponseDTO postBooking(BookingPostRequestDTO request) {
-        CrudResponseDTO response = new CrudResponseDTO("El proceso terminó satisfactoriamente");
-
-        // Night count excludes the end date.
-        int nights = ((int) request.getBooking().getDateFrom().until(
-                request.getBooking().getDateTo(), ChronoUnit.DAYS));
-
-        // Filters hotels with request parameters.
-        Stream<Hotel> hotelStream = filterHotels(
-                request.getBooking().getDateFrom(),
-                request.getBooking().getDateTo(),
-                request.getBooking().getDestination(),
-                true);
-
-        if (request.getBooking().getHotelCode() != null)
-            hotelStream = hotelStream.filter(hotel -> hotel.getHotelId()
-                    .equalsIgnoreCase(request.getBooking().getHotelCode()));
-        if (request.getBooking().getRoomType() != null)
-            hotelStream = hotelStream.filter(hotel -> hotel.getRoomType()
-                    .equalsIgnoreCase(request.getBooking().getRoomType()));
-
-        Optional<Hotel> hotelOptional = hotelStream.findFirst();
-
-        if (hotelOptional.get().getReserved())  // handled by ExceptionHandler
-            throw new IllegalArgumentException("Hotel already booked.");
-
-        // Saves new status to DB.
-        hotelOptional.get().setReserved(true);
-        this.hotelRepository.save(hotelOptional.get());
-
-        return response;
-    }
-
-    @Override
-    public CrudResponseDTO updateBooking(Long idBooking, BookingBaseDTO request) {
-
+    public CrudResponseDTO saveNewHotel(HotelDTO request) {
+        this.hotelRepository.save(modelMapper.map(request, Hotel.class));
         return new CrudResponseDTO("El proceso terminó satisfactoriamente");
     }
 
     @Override
-    public CrudResponseDTO deleteBooking(Long idBooking) {
-        return null;
+    public CrudResponseDTO updateHotel(Integer hotelCode, HotelDTO request) {
+        Hotel hotel = this.hotelRepository.findById(hotelCode).get();
+        if (request.getName() != null)
+            hotel.setName(request.getName());
+        if (request.getPlace() != null)
+            hotel.setPlace(request.getPlace());
+        if (request.getRoomType() != null)
+            hotel.setRoomType(request.getRoomType());
+        if (request.getRoomPrice() != null)
+            hotel.setRoomPrice(request.getRoomPrice());
+        if (request.getDisponibilityDateFrom() != null)
+            hotel.setDisponibilityDateFrom(request.getDisponibilityDateFrom());
+        if (request.getDisponibilityDateTo() != null)
+            hotel.setDisponibilityDateTo(request.getDisponibilityDateTo());
+        if (request.getIsBooking() != null)
+            hotel.setIsBooking(request.getIsBooking());
+
+        this.hotelRepository.save(hotel);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
     }
 
     @Override
-    public List<BookingBaseDTO> getBookings() {
-        return null;
+    public CrudResponseDTO deleteHotel(Integer hotelCode) {
+        this.hotelRepository.deleteById(hotelCode);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
     }
 
     /**
@@ -176,17 +106,17 @@ public class HotelServiceImpl implements HotelService {
     private Stream<Hotel> filterHotels(LocalDate dateFrom, LocalDate dateTo, String location, boolean postRequest) {
         Stream<Hotel> hotelStream = this.hotelRepository.findAll().stream();
         if (location != null || postRequest)
-            hotelStream = hotelStream.filter(hotel -> StringUtil.normalizeString(hotel.getLocation())
+            hotelStream = hotelStream.filter(hotel -> StringUtil.normalizeString(hotel.getPlace())
                     .equalsIgnoreCase(StringUtil.normalizeString(location)));
 
         Assert.isTrue(hotelStream.findAny().isPresent(), "El destino elegido no existe");
-        hotelStream = this.hotelRepository.findAll().stream().filter(hotel -> StringUtil.normalizeString(hotel.getLocation())
+        hotelStream = this.hotelRepository.findAll().stream().filter(hotel -> StringUtil.normalizeString(hotel.getPlace())
                 .equalsIgnoreCase(StringUtil.normalizeString(location)));
 
         if (dateFrom != null || postRequest)
-            hotelStream = hotelStream.filter(hotel -> hotel.getDateFrom().compareTo(dateFrom) <= 0);
+            hotelStream = hotelStream.filter(hotel -> hotel.getDisponibilityDateFrom().compareTo(dateFrom) <= 0);
         if (dateTo != null || postRequest)
-            hotelStream = hotelStream.filter(hotel -> hotel.getDateTo().compareTo(dateTo) >= 0);
+            hotelStream = hotelStream.filter(hotel -> hotel.getDisponibilityDateTo().compareTo(dateTo) >= 0);
         return hotelStream;
     }
 }
