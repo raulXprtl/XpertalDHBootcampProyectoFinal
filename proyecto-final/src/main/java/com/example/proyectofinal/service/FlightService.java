@@ -1,9 +1,7 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.flight.FlightDTO;
-import com.example.proyectofinal.dto.flight.FlightGetRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostResponseDTO;
+import com.example.proyectofinal.dto.CrudResponseDTO;
+import com.example.proyectofinal.dto.flight.*;
 
 import java.util.List;
 
@@ -12,5 +10,9 @@ public interface FlightService {
 
     List<FlightDTO> getFlightsAvailable(FlightGetRequestDTO request);
 
-    FlightPostResponseDTO postFlightReservation(FlightPostRequestDTO request);
+    CrudResponseDTO saveNewFlight(FlightDTO request);
+
+    CrudResponseDTO updateFlight(Integer flightNumber, FlightDTO request);
+
+    CrudResponseDTO deleteFlight(Integer flightNumber);
 }

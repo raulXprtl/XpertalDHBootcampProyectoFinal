@@ -1,9 +1,7 @@
 package com.example.proyectofinal.controller;
 
-import com.example.proyectofinal.dto.hotel.HotelDTO;
-import com.example.proyectofinal.dto.hotel.HotelGetRequestDTO;
-import com.example.proyectofinal.dto.hotel.HotelPostRequestDTO;
-import com.example.proyectofinal.dto.hotel.HotelPostResponseDTO;
+import com.example.proyectofinal.dto.CrudResponseDTO;
+import com.example.proyectofinal.dto.hotel.*;
 import com.example.proyectofinal.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,17 +16,37 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
 @Validated
+@RestController
+@RequestMapping("/api/v1/hotels")
 public class HotelController {
     @Autowired
     private HotelService hotelService;
 
+    //-------------------------------ALTA DE HOTEL-------------------------------------
+    @PostMapping(path = "/new")
+    public ResponseEntity<CrudResponseDTO> saveNewHotel(@Valid @RequestBody HotelDTO request) {
+        return new ResponseEntity<>(this.hotelService.saveNewHotel(request), HttpStatus.OK);
+    }
+
+    //---------------------------MODIFICACION DE HOTEL----------------------------------
+    @PutMapping(path = "/edit")
+    public ResponseEntity<CrudResponseDTO> updateHotel(@RequestParam Integer hotelCode, @RequestBody HotelDTO request) {
+        return new ResponseEntity<>(this.hotelService.updateHotel(hotelCode, request), HttpStatus.OK);
+    }
+
+    //------------------------------BAJA DE UN HOTEL------------------------------------
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<CrudResponseDTO> deleteHotel(@RequestParam Integer hotelCode) {
+        return new ResponseEntity<>(this.hotelService.deleteHotel(hotelCode), HttpStatus.OK);
+    }
+
+    //-----------------------------CONSULTAS DE HOTELES----------------------------------
     /**
      * This method handles the get request for retrieving all hotels.
      * @return response entity containing a list of hotels.
      */
-    @GetMapping(path = "/api/v1/hotels", params = {"!dateFrom", "!dateTo", "!destination"})
+    @GetMapping(path = "", params = {"!dateFrom", "!dateTo", "!destination"})
     public ResponseEntity<List<HotelDTO>> getHotels() {
         return new ResponseEntity<>(this.hotelService.getHotels(), HttpStatus.OK);
     }
@@ -40,7 +58,7 @@ public class HotelController {
      * @param destination string to filter hotel location.
      * @return response entity containing a list of hotels.
      */
-    @GetMapping(path = "/api/v1/hotels")
+    @GetMapping(path = "")
     public ResponseEntity<List<HotelDTO>> getAvailableHotels(
             @RequestParam @NotNull @DateTimeFormat(pattern="dd/MM/yyyy") LocalDate dateFrom,
             @RequestParam @NotNull @DateTimeFormat(pattern="dd/MM/yyyy") LocalDate dateTo,
@@ -48,15 +66,5 @@ public class HotelController {
         HotelGetRequestDTO request = new HotelGetRequestDTO(dateFrom, dateTo, destination);
         return new ResponseEntity<>(
                 this.hotelService.getHotelsAvailable(request), HttpStatus.OK);
-    }
-
-    /**
-     * This method handles the post requests for hotel bookings.
-     * @param request contains required request parameters.
-     * @return response entity containing processed information.
-     */
-    @PostMapping(path = "/api/v1/booking")
-    public ResponseEntity<HotelPostResponseDTO> postBooking(@Valid @RequestBody HotelPostRequestDTO request) {
-        return new ResponseEntity<>(this.hotelService.postBooking(request), HttpStatus.OK);
     }
 }

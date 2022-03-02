@@ -1,13 +1,11 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.StatusCodeDTO;
-import com.example.proyectofinal.dto.flight.FlightDTO;
-import com.example.proyectofinal.dto.flight.FlightGetRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostRequestDTO;
-import com.example.proyectofinal.dto.flight.FlightPostResponseDTO;
+import com.example.proyectofinal.dto.CrudResponseDTO;
+import com.example.proyectofinal.dto.flight.*;
 import com.example.proyectofinal.entity.Flight;
 import com.example.proyectofinal.repository.FlightRepository;
 import com.example.proyectofinal.util.StringUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -16,13 +14,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 public class FlightServiceImpl implements FlightService {
     @Autowired
     private FlightRepository flightRepository;
+    private ModelMapper modelMapper = new ModelMapper();
 
     /**
      * This method gets a list of flights from the local repository.
@@ -30,18 +28,12 @@ public class FlightServiceImpl implements FlightService {
      */
     @Override
     public List<FlightDTO> getFlights() {
-        List<FlightDTO> flightList = new ArrayList<>();
-        this.flightRepository.findAll().forEach(flight -> flightList.add(new FlightDTO(
-                flight.getFlightNumber(),
-                flight.getOrigin(),
-                flight.getDestination(),
-                flight.getSeatType(),
-                flight.getPricePerPerson(),
-                flight.getDateFrom(),
-                flight.getDateTo())));
-        if (flightList.size() == 0)
+        List<FlightDTO> flights = new ArrayList<>();
+        this.flightRepository.findAll().forEach(flight -> flights.add(
+                modelMapper.map(flight, FlightDTO.class)));
+        if (flights.size() == 0)
             throw new NoSuchElementException("No se encontraron vuelos");
-        return flightList;
+        return flights;
     }
 
     /**
@@ -54,7 +46,7 @@ public class FlightServiceImpl implements FlightService {
         Assert.isTrue(request.getDateTo().compareTo(request.getDateFrom()) >= 0,
                 "La fecha de ida debe ser menor a la de vuelta");
 
-        List<FlightDTO> flightList = new ArrayList<>();
+        List<FlightDTO> flights = new ArrayList<>();
         Stream<Flight> flightStream = filterFlights(
                 request.getDateFrom(),
                 request.getDateTo(),
@@ -63,54 +55,44 @@ public class FlightServiceImpl implements FlightService {
                 false
         );
 
-        flightStream.forEach(flight -> flightList.add(new FlightDTO(
-                flight.getFlightNumber(),
-                flight.getOrigin(),
-                flight.getDestination(),
-                flight.getSeatType(),
-                flight.getPricePerPerson(),
-                flight.getDateFrom(),
-                flight.getDateTo())));
-        return flightList;
+        flightStream.forEach(flight -> flights.add(
+                modelMapper.map(flight, FlightDTO.class)));
+        return flights;
     }
 
-    /**
-     * This method returns a reponse for a flight reservation request.
-     * @param request contains required request parameters.
-     * @return response object.
-     */
     @Override
-    public FlightPostResponseDTO postFlightReservation(FlightPostRequestDTO request) {
-        FlightPostResponseDTO response = new FlightPostResponseDTO();
+    public CrudResponseDTO saveNewFlight(FlightDTO request) {
+        this.flightRepository.save(modelMapper.map(request, Flight.class));
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
+    }
 
-        // Filter flights with request parameters.
-        Stream<Flight> flightStream = filterFlights(
-                request.getFlightReservation().getDateFrom(),
-                request.getFlightReservation().getDateTo(),
-                request.getFlightReservation().getOrigin(),
-                request.getFlightReservation().getDestination(),
-                true);
+    @Override
+    public CrudResponseDTO updateFlight(Integer flightNumber, FlightDTO request) {
+        Flight flight = this.flightRepository.findById(flightNumber).get();
+        if (request.getName() != null)
+            flight.setName(request.getName());
+        if (request.getOrigin() != null)
+            flight.setOrigin(request.getOrigin());
+        if (request.getDestination() != null)
+            flight.setDestination(request.getDestination());
+        if (request.getSeatType() != null)
+            flight.setSeatType(request.getSeatType());
+        if (request.getFlightPrice() != null)
+            flight.setFlightPrice(request.getFlightPrice());
+        if (request.getGoingDate() != null)
+            flight.setGoingDate(request.getGoingDate());
+        if (request.getReturnDate() != null)
+            flight.setReturnDate(request.getReturnDate());
 
-        if (request.getFlightReservation().getFlightNumber() != null)
-            flightStream = flightStream.filter(flight -> flight.getFlightNumber()
-                    .equalsIgnoreCase(request.getFlightReservation().getFlightNumber()));
-        if (request.getFlightReservation().getSeatType() != null)
-            flightStream = flightStream.filter(flight -> flight.getSeatType()
-                    .equalsIgnoreCase(request.getFlightReservation().getSeatType()));
+        this.flightRepository.save(flight);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
+    }
 
-        Optional<Flight> flightOptional = flightStream.findFirst();
+    @Override
+    public CrudResponseDTO deleteFlight(Integer flightNumber) {
+        this.flightRepository.deleteById(flightNumber);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
 
-        // Sets response values.
-        response.setUserName(request.getUserName());
-        response.setAmount(
-                flightOptional.get().getPricePerPerson() *  // handled by ExceptionHandler
-                        request.getFlightReservation().getSeats().doubleValue());
-        response.setInterest(request.getFlightReservation().getPaymentMethod().calculateInterest());
-        response.setTotal(response.getAmount() * (1 + response.getInterest() / 100));
-        response.setFlightReservation(request.getFlightReservation());
-        response.setStatusCode(
-                new StatusCodeDTO(200, "El proceso terminó satisfactoriamente"));
-        return response;
     }
 
     /**
@@ -157,9 +139,9 @@ public class FlightServiceImpl implements FlightService {
                                 .equalsIgnoreCase(StringUtil.normalizeString(destination)));
 
         if (dateFrom != null || postRequest)
-            flightStream = flightStream.filter(flight -> flight.getDateFrom().equals(dateFrom));
+            flightStream = flightStream.filter(flight -> flight.getGoingDate().equals(dateFrom));
         if (dateTo != null || postRequest)
-            flightStream = flightStream.filter(flight -> flight.getDateTo().equals(dateTo));
+            flightStream = flightStream.filter(flight -> flight.getReturnDate().equals(dateTo));
         return flightStream;
     }
 }

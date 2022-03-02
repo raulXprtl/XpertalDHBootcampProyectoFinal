@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.flight;
+package com.example.proyectofinal.dto.booking;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +12,11 @@ import javax.validation.constraints.NotEmpty;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlightPostRequestDTO {
+public class BookingPostRequestDTO {
     @NotEmpty
     @Email(message = "Por favor ingrese un e-mail válido",
             regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
     private String userName;
     @Valid
-    private FlightReservationRequestDTO flightReservation;
+    private BookingRequestDTO booking;
 }

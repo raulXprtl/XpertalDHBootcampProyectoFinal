@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.flight;
+package com.example.proyectofinal.dto.reservation;
 
 import com.example.proyectofinal.dto.StatusCodeDTO;
 import lombok.AllArgsConstructor;
@@ -8,18 +8,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlightPostResponseDTO {
+public class ReservationPostResponseDTO {
     private String userName;
     private Double amount;
     private Double interest;
     private Double total;
-    private FlightReservationBaseDTO flightReservation;
+    private ReservationBaseDTO flightReservation;
     private StatusCodeDTO statusCode;
 
-    public void setFlightReservation(FlightReservationRequestDTO flightReservation) {
-        this.flightReservation = new FlightReservationBaseDTO(
-                flightReservation.getDateFrom(),
-                flightReservation.getDateTo(),
+    public void setFlightReservation(ReservationRequestDTO flightReservation) {
+        this.flightReservation = new ReservationBaseDTO(
+                flightReservation.getReservationId(),
+                flightReservation.getGoingDate(),
+                flightReservation.getReturnDate(),
                 flightReservation.getOrigin(),
                 flightReservation.getDestination(),
                 flightReservation.getFlightNumber(),

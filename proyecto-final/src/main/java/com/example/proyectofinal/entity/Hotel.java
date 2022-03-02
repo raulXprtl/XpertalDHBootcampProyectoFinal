@@ -1,38 +1,38 @@
 package com.example.proyectofinal.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
-@Table(name = "HOTEL")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@Table(name = "hotels")
 public class Hotel {
     @Id
-    @Column(name = "HOTEL_CODE")
-    private String hotelCode;
-    @Column(name = "NAME")
+    @Column(name = "id_hotel")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer hotelCode;
+    @Column(name = "name")
     private String name;
-    @Column(name = "LOCATION")
-    private String location;
-    @Column(name = "ROOM_TYPE")
+    @Column(name = "location")
+    private String place;
+    @Column(name = "room_type")
     private String roomType;
-    @Column(name = "PRICE_PER_NIGHT")
-    private Integer pricePerNight;
-    @Column(name = "DATE_FROM")
-    private LocalDate dateFrom;
-    @Column(name = "DATE_TO")
-    private LocalDate dateTo;
-    @Column(name = "RESERVED")
-    private Boolean reserved;
+    @Column(name = "price_per_night")
+    private Double roomPrice;
+    @Column(name = "date_from")
+    private LocalDate disponibilityDateFrom;
+    @Column(name = "date_to")
+    private LocalDate disponibilityDateTo;
+    @Column(name = "reserved")
+    private Boolean isBooking;
+
+    @JsonManagedReference
+    @Column(nullable = true)
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Booking> bookings;
 }

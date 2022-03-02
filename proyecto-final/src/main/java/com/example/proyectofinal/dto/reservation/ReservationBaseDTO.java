@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.flight;
+package com.example.proyectofinal.dto.reservation;
 
 import com.example.proyectofinal.constraint.ChronologicalMatch;
 import com.example.proyectofinal.dto.PersonDTO;
@@ -10,22 +10,24 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ChronologicalMatch(dateFrom = "dateFrom", dateTo = "dateTo",
+@ChronologicalMatch(dateFrom = "goingDate", dateTo = "returnDate",
         message = "La fecha de ida debe ser menor a la de vuelta")
-public class FlightReservationBaseDTO {
+public class ReservationBaseDTO {
+
+    private Integer reservationId;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dateFrom;
+    private LocalDate goingDate;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dateTo;
+    private LocalDate returnDate;
 
     @NotBlank(message = "El origen elegido no existe")
     private String origin;
@@ -33,7 +35,7 @@ public class FlightReservationBaseDTO {
     @NotBlank(message = "El destino elegido no existe")
     private String destination;
 
-    private String flightNumber;
+    private Integer flightNumber;
 
     @NotNull
     @DecimalMin(value = "1", message = "Número mínimo de asientos es 1")
@@ -42,5 +44,5 @@ public class FlightReservationBaseDTO {
     private BigDecimal seats;
 
     private String seatType;
-    private List<PersonDTO> people;
+    private Set<PersonDTO> people;
 }
