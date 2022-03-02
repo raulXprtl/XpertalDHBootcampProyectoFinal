@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.hotel;
+package com.example.proyectofinal.dto.booking;
 
 import com.example.proyectofinal.dto.StatusCodeDTO;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelPostResponseDTO {
+public class BookingPostResponseDTO {
     private String userName;
     private Double amount;
     private Double interest;

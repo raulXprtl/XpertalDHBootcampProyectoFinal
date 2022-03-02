@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.hotel;
+package com.example.proyectofinal.dto.booking;
 
 import com.example.proyectofinal.constraint.ChronologicalMatch;
 import com.example.proyectofinal.constraint.RoomTypePeopleMatch;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +23,7 @@ import java.util.List;
                 "la cantidad de personas que se alojarán en ella")
 public class BookingBaseDTO {
 
-    private Long bookingId;
+    private Integer bookingId;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -36,7 +36,7 @@ public class BookingBaseDTO {
     @NotBlank(message = "El destino elegido no existe")
     private String destination;
 
-    private String hotelCode;
+    private Integer hotelCode;
 
     @NotNull
     @DecimalMin(value = "1", message = "Número mínimo de personas es 1")
@@ -46,5 +46,5 @@ public class BookingBaseDTO {
     private BigDecimal peopleAmount;
 
     private String roomType;
-    private List<PersonDTO> people;
+    private Set<PersonDTO> people;
 }

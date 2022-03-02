@@ -15,21 +15,21 @@ public class Hotel {
     @Id
     @Column(name = "id_hotel")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String hotelId;
+    private Integer hotelCode;
     @Column(name = "name")
     private String name;
     @Column(name = "location")
-    private String location;
+    private String place;
     @Column(name = "room_type")
     private String roomType;
     @Column(name = "price_per_night")
-    private Double pricePerNight;
+    private Double roomPrice;
     @Column(name = "date_from")
-    private LocalDate dateFrom;
+    private LocalDate disponibilityDateFrom;
     @Column(name = "date_to")
-    private LocalDate dateTo;
+    private LocalDate disponibilityDateTo;
     @Column(name = "reserved")
-    private Boolean reserved;
+    private Boolean isBooking;
 
     @JsonManagedReference
     @Column(nullable = true)

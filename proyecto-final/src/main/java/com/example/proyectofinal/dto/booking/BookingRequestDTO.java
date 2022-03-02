@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.hotel;
+package com.example.proyectofinal.dto.booking;
 
 import com.example.proyectofinal.dto.PaymentMethodDTO;
 import com.example.proyectofinal.dto.PersonDTO;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -28,9 +28,9 @@ public class BookingRequestDTO extends BookingBaseDTO {
         this.setPaymentMethod(paymentMethod);
     }
 
-    public BookingRequestDTO(Long id, LocalDate dateFrom, LocalDate dateTo, String destination,
-                             String hotelCode, BigDecimal peopleAmount, String roomType,
-                             List<PersonDTO> people, PaymentMethodDTO paymentMethod) {
+    public BookingRequestDTO(Integer id, LocalDate dateFrom, LocalDate dateTo, String destination,
+                             Integer hotelCode, BigDecimal peopleAmount, String roomType,
+                             Set<PersonDTO> people, PaymentMethodDTO paymentMethod) {
         super(id, dateFrom, dateTo, destination, hotelCode, peopleAmount, roomType, people);
         this.setPaymentMethod(paymentMethod);
     }

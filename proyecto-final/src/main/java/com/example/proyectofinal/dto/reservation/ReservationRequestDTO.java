@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.flight;
+package com.example.proyectofinal.dto.reservation;
 
 import com.example.proyectofinal.dto.PaymentMethodDTO;
 import com.example.proyectofinal.dto.PersonDTO;
@@ -9,17 +9,17 @@ import lombok.Setter;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @NoArgsConstructor
-public class FlightReservationRequestDTO extends FlightReservationBaseDTO {
+public class ReservationRequestDTO extends ReservationBaseDTO {
     @Valid
     private PaymentMethodDTO paymentMethod;
 
-    public FlightReservationRequestDTO(FlightReservationBaseDTO base, PaymentMethodDTO paymentMethod) {
-        this.setDateFrom(base.getDateFrom());
-        this.setDateTo(base.getDateTo());
+    public ReservationRequestDTO(ReservationBaseDTO base, PaymentMethodDTO paymentMethod) {
+        this.setGoingDate(base.getGoingDate());
+        this.setReturnDate(base.getReturnDate());
         this.setOrigin(base.getOrigin());
         this.setDestination(base.getDestination());
         this.setFlightNumber(base.getFlightNumber());
@@ -29,10 +29,10 @@ public class FlightReservationRequestDTO extends FlightReservationBaseDTO {
         this.setPaymentMethod(paymentMethod);
     }
 
-    public FlightReservationRequestDTO(LocalDate dateFrom, LocalDate dateTo, String origin,
-                                       String destination, String flightNumber, BigDecimal seats,
-                                       String seatType, List<PersonDTO> people, PaymentMethodDTO paymentMethod) {
-        super(dateFrom, dateTo, origin, destination, flightNumber, seats, seatType, people);
+    public ReservationRequestDTO(Integer id, LocalDate dateFrom, LocalDate dateTo, String origin,
+                                 String destination, Integer flightNumber, BigDecimal seats,
+                                 String seatType, Set<PersonDTO> people, PaymentMethodDTO paymentMethod) {
+        super(id, dateFrom, dateTo, origin, destination, flightNumber, seats, seatType, people);
         this.setPaymentMethod(paymentMethod);
     }
 }
