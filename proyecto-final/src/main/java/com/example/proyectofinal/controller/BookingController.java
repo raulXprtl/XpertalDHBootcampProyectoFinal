@@ -1,9 +1,8 @@
 package com.example.proyectofinal.controller;
 
-import com.example.proyectofinal.dto.Booking.BookingRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingRequestDTO;
 import com.example.proyectofinal.dto.CrudResponseDTO;
-import com.example.proyectofinal.dto.Booking.BookingBaseDTO;
-import com.example.proyectofinal.dto.Booking.BookingPostRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingPostRequestDTO;
 import com.example.proyectofinal.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.Booking;
+package com.example.proyectofinal.dto.booking;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,8 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.Booking.BookingRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingRequestDTO;
 import com.example.proyectofinal.dto.CrudResponseDTO;
-import com.example.proyectofinal.dto.Booking.BookingBaseDTO;
-import com.example.proyectofinal.dto.Booking.BookingPostRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingPostRequestDTO;
 
 import java.util.List;
 

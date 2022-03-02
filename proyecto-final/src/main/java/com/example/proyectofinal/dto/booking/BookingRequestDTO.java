@@ -1,4 +1,4 @@
-package com.example.proyectofinal.dto.Booking;
+package com.example.proyectofinal.dto.booking;
 
 import com.example.proyectofinal.dto.PaymentMethodDTO;
 import com.example.proyectofinal.dto.PersonDTO;

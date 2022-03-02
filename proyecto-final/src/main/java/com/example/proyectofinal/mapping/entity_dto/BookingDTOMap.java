@@ -1,6 +1,6 @@
 package com.example.proyectofinal.mapping.entity_dto;
 
-import com.example.proyectofinal.dto.Booking.BookingRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingRequestDTO;
 import com.example.proyectofinal.entity.Booking;
 import org.modelmapper.PropertyMap;
 

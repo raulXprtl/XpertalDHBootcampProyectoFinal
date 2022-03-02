@@ -1,8 +1,8 @@
 package com.example.proyectofinal.service;
 
-import com.example.proyectofinal.dto.Booking.BookingRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingRequestDTO;
 import com.example.proyectofinal.dto.CrudResponseDTO;
-import com.example.proyectofinal.dto.Booking.BookingPostRequestDTO;
+import com.example.proyectofinal.dto.booking.BookingPostRequestDTO;
 import com.example.proyectofinal.entity.Booking;
 import com.example.proyectofinal.entity.Hotel;
 import com.example.proyectofinal.entity.PaymentMethod;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.awt.print.Book;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -83,13 +82,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public CrudResponseDTO updateBooking(Integer idBooking, BookingPostRequestDTO request) {
         ModelMapper modelMapper = new ModelMapper();
-        Booking booking = this.bookingRepository.getById(idBooking);
+        Booking booking = this.bookingRepository.findById(idBooking).get();
         if (request.getBooking().getDateFrom() != null)
             booking.setDateFrom(request.getBooking().getDateFrom());
         if (request.getBooking().getDateTo() != null)
             booking.setDateTo(request.getBooking().getDateTo());
         if (request.getBooking().getHotelCode() != null)
-            booking.setHotel(this.hotelRepository.getById(request.getBooking().getHotelCode()));
+            booking.setHotel(this.hotelRepository.findById(request.getBooking().getHotelCode()).get());
         if (request.getBooking().getPaymentMethod() != null) {
             booking.setPaymentMethod(modelMapper.map(
                     request.getBooking().getPaymentMethod(), PaymentMethod.class));

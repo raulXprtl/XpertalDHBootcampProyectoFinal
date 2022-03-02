@@ -1,7 +1,5 @@
-package com.example.proyectofinal.dto.Booking;
+package com.example.proyectofinal.dto.booking;
 
-import com.example.proyectofinal.dto.Booking.BookingBaseDTO;
-import com.example.proyectofinal.dto.Booking.BookingRequestDTO;
 import com.example.proyectofinal.dto.StatusCodeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
