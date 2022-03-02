@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,12 +14,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TouristPack {
-    private Long packageNumber;
+public class TouristPackDTO {
+    private Integer packageNumber;
     private String name;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creation_date;
-    private Long client_id;
-    private List<BookResDTO> bookingsOrReservations;
+    private Integer client_id;
+    private BookResDTO bookingsOrReservations;
 
 }

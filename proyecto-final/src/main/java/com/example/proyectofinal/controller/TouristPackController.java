@@ -3,6 +3,7 @@ package com.example.proyectofinal.controller;
 import com.example.proyectofinal.dto.CrudResponseDTO;
 import com.example.proyectofinal.dto.touristPack.TouristPackRequestDTO;
 import com.example.proyectofinal.dto.touristPack.TouristPackResponseDTO;
+import com.example.proyectofinal.dto.touristPack.TouristPackUpdateDTO;
 import com.example.proyectofinal.service.TouristPackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +23,13 @@ public class TouristPackController {
 
     //--------------------------------MODIFICACION TOURIST PACK----------------------------
     @PutMapping(path = "/api/v1/touristicpackage/edit")
-    public ResponseEntity<CrudResponseDTO> updateTouristPack(@RequestParam Long packageNumber, @RequestBody TouristPackRequestDTO request) {
+    public ResponseEntity<CrudResponseDTO> updateTouristPack(@RequestParam Integer packageNumber, @RequestBody TouristPackUpdateDTO request) {
         return new ResponseEntity<>(touristPack.updateTouristPack(packageNumber, request), HttpStatus.OK);
     }
 
     //--------------------------------ELIMINACION TOURIST PACK------------------------------
     @DeleteMapping(path = "/api/v1/touristicpackage/delete")
-    public ResponseEntity<CrudResponseDTO> deleteTouristPack(@RequestParam Long packageNumber) {
+    public ResponseEntity<CrudResponseDTO> deleteTouristPack(@RequestParam Integer packageNumber) {
         return new ResponseEntity<>(touristPack.deleteTouristPack(packageNumber), HttpStatus.OK);
     }
 

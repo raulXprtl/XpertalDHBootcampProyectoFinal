@@ -16,12 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 public class TouristPackRequestDTO {
 
-    private Long packageNumber;
+    private Integer packageNumber;
     private String name;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creation_date;
-    private Long client_id;
-    private List<BookResDTO> bookingsOrReservations;
+    private Integer client_id;
+    private BookResDTO bookingsOrReservations;
 
 
 }

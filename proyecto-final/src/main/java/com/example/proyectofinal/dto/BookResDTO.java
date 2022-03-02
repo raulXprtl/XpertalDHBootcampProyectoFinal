@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookResDTO {
-    private Long id;
+    private Integer bookResId1;
+    private Integer bookResId2;
 }
