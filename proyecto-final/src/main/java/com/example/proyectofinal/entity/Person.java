@@ -23,9 +23,9 @@ public class Person {
     @Column(name = "dni")
     private String dni;
     @Column(name = "first_name")
-    private String firstName;
+    private String firstname;
     @Column(name = "last_name")
-    private String lastName;
+    private String lastname;
     @Column(name = "birth_date")
     private LocalDate birthDate;
     @Column(name = "email")

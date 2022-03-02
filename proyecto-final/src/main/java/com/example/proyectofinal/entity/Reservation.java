@@ -22,7 +22,16 @@ public class Reservation {
     @JoinColumn(name = "flight_FK", referencedColumnName = "id_flight")
     private Flight flight;
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_FK", referencedColumnName = "id_payment")
+    private PaymentMethod paymentMethod;
+
     @JsonIgnoreProperties("reservations")
-    @ManyToMany(mappedBy = "reservations")
+    @ManyToMany
+    @JoinTable(
+            name = "reservation_people",
+            joinColumns = @JoinColumn(name = "reservation_FK"),
+            inverseJoinColumns = @JoinColumn(name = "person_FK", referencedColumnName = "id_person"))
     private Set<Person> people;
 }
