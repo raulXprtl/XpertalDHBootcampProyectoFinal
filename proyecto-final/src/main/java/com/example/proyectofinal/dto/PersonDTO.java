@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PersonDTO {
     private String dni;
-    private String name;
+    private String firstName;
     private String lastname;
 
     @JsonFormat(pattern = "dd/MM/yyyy")

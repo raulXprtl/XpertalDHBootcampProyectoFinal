@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.DateTimeException;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -116,5 +118,23 @@ public class ExceptionConfig {
         StatusCodeDTO errorDTO = new StatusCodeDTO(
                 HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getMessage());
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<StatusCodeDTO> sqlIntegrityConstraintViolationHandler(
+            SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException
+    ){
+        StatusCodeDTO error = new StatusCodeDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                sqlIntegrityConstraintViolationException.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<StatusCodeDTO> SQLHandler(SQLException sqlException){
+        StatusCodeDTO error = new StatusCodeDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                sqlException.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
