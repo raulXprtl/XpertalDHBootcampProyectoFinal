@@ -15,9 +15,9 @@ public class Flight {
     @Id
     @Column(name = "id_flight")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long flightId;
-    @Column(name = "flight_number")
-    private String flightNumber;
+    private Integer flightNumber;
+    @Column(name = "name")
+    private String name;
     @Column(name = "origin")
     private String origin;
     @Column(name = "destination")
@@ -25,11 +25,11 @@ public class Flight {
     @Column(name = "seat_type")
     private String seatType;
     @Column(name = "price_per_person")
-    private Double pricePerPerson;
+    private Double flightPrice;
     @Column(name = "date_from")
-    private LocalDate dateFrom;
+    private LocalDate goingDate;
     @Column(name = "date_to")
-    private LocalDate dateTo;
+    private LocalDate returnDate;
 
     @JsonManagedReference
     @Column(nullable = true)

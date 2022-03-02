@@ -36,10 +36,6 @@ public class Person {
     private Set<Booking> bookings;
 
     @JsonIgnoreProperties("people")
-    @ManyToMany
-    @JoinTable(
-            name = "reservation_people",
-            joinColumns = @JoinColumn(name = "person_FK"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_FK"))
+    @ManyToMany(mappedBy = "people")
     private Set<Reservation> reservations;
 }

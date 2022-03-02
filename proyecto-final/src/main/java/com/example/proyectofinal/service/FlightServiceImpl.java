@@ -1,7 +1,6 @@
 package com.example.proyectofinal.service;
 
 import com.example.proyectofinal.dto.CrudResponseDTO;
-import com.example.proyectofinal.dto.StatusCodeDTO;
 import com.example.proyectofinal.dto.flight.*;
 import com.example.proyectofinal.entity.Flight;
 import com.example.proyectofinal.repository.FlightRepository;
@@ -15,7 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -62,61 +60,39 @@ public class FlightServiceImpl implements FlightService {
         return flights;
     }
 
-    /**
-     * This method returns a reponse for a flight reservation request.
-     * @param request contains required request parameters.
-     * @return response object.
-     */
     @Override
-    public CrudResponseDTO postFlightReservation(FlightPostRequestDTO request) {
-        // Filter flights with request parameters.
-        Stream<Flight> flightStream = filterFlights(
-                request.getFlightReservation().getDateFrom(),
-                request.getFlightReservation().getDateTo(),
-                request.getFlightReservation().getOrigin(),
-                request.getFlightReservation().getDestination(),
-                true);
-
-        if (request.getFlightReservation().getFlightNumber() != null)
-            flightStream = flightStream.filter(flight -> flight.getFlightNumber()
-                    .equalsIgnoreCase(request.getFlightReservation().getFlightNumber()));
-        if (request.getFlightReservation().getSeatType() != null)
-            flightStream = flightStream.filter(flight -> flight.getSeatType()
-                    .equalsIgnoreCase(request.getFlightReservation().getSeatType()));
-
-        Optional<Flight> flightOptional = flightStream.findFirst();
-
+    public CrudResponseDTO saveNewFlight(FlightDTO request) {
+        this.flightRepository.save(modelMapper.map(request, Flight.class));
         return new CrudResponseDTO("El proceso terminó satisfactoriamente");
     }
 
     @Override
-    public CrudResponseDTO saveNewFlight(FlightNewPostRequestDTO request) {
-        return null;
+    public CrudResponseDTO updateFlight(Integer flightNumber, FlightDTO request) {
+        Flight flight = this.flightRepository.findById(flightNumber).get();
+        if (request.getName() != null)
+            flight.setName(request.getName());
+        if (request.getOrigin() != null)
+            flight.setOrigin(request.getOrigin());
+        if (request.getDestination() != null)
+            flight.setDestination(request.getDestination());
+        if (request.getSeatType() != null)
+            flight.setSeatType(request.getSeatType());
+        if (request.getFlightPrice() != null)
+            flight.setFlightPrice(request.getFlightPrice());
+        if (request.getGoingDate() != null)
+            flight.setGoingDate(request.getGoingDate());
+        if (request.getReturnDate() != null)
+            flight.setReturnDate(request.getReturnDate());
+
+        this.flightRepository.save(flight);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
     }
 
     @Override
-    public CrudResponseDTO updateFlight(String flightNumber, FlightNewPostRequestDTO request) {
-        return null;
-    }
+    public CrudResponseDTO deleteFlight(Integer flightNumber) {
+        this.flightRepository.deleteById(flightNumber);
+        return new CrudResponseDTO("El proceso terminó satisfactoriamente");
 
-    @Override
-    public CrudResponseDTO deleteFlight(String flightNumber) {
-        return null;
-    }
-
-    @Override
-    public CrudResponseDTO updateReservation(Long idReservation, ReservationUpdateDTO request) {
-        return null;
-    }
-
-    @Override
-    public CrudResponseDTO deleteReservation(Long idReservation) {
-        return null;
-    }
-
-    @Override
-    public List<ReservationDTO> getReservations() {
-        return null;
     }
 
     /**
@@ -163,9 +139,9 @@ public class FlightServiceImpl implements FlightService {
                                 .equalsIgnoreCase(StringUtil.normalizeString(destination)));
 
         if (dateFrom != null || postRequest)
-            flightStream = flightStream.filter(flight -> flight.getDateFrom().equals(dateFrom));
+            flightStream = flightStream.filter(flight -> flight.getGoingDate().equals(dateFrom));
         if (dateTo != null || postRequest)
-            flightStream = flightStream.filter(flight -> flight.getDateTo().equals(dateTo));
+            flightStream = flightStream.filter(flight -> flight.getReturnDate().equals(dateTo));
         return flightStream;
     }
 }
