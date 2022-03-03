@@ -11,16 +11,16 @@ INSERT INTO hotels VALUES(9, "Hotel Costa", "Tamaulipas", "Simple", 700.00, "202
 INSERT INTO hotels VALUES(10, "Hotel Frontera", "Saltillo", "King Size", 1200.00, "2022-10-01", "2022-10-05", 1);
 SELECT * FROM hotels;
 
-INSERT INTO bookings VALUES(1, 10);
-INSERT INTO bookings VALUES(2, 9);
-INSERT INTO bookings VALUES(3, 8);
-INSERT INTO bookings VALUES(4, 7);
-INSERT INTO bookings VALUES(5, 6);
-INSERT INTO bookings VALUES(6, 5);
-INSERT INTO bookings VALUES(7, 4);
-INSERT INTO bookings VALUES(8, 3);
-INSERT INTO bookings VALUES(9, 2);
-INSERT INTO bookings VALUES(10, 1);
+INSERT INTO bookings VALUES(1, 10, now(),now(),0);
+INSERT INTO bookings VALUES(2, 9,now(),now(),0);
+INSERT INTO bookings VALUES(3, 8,now(),now(),0);
+INSERT INTO bookings VALUES(4, 7,now(),now(),0);
+INSERT INTO bookings VALUES(5, 6,now(),now(),0);
+INSERT INTO bookings VALUES(6, 5,now(),now(),0);
+INSERT INTO bookings VALUES(7, 4,now(),now(),0);
+INSERT INTO bookings VALUES(8, 3,now(),now(),0);
+INSERT INTO bookings VALUES(9, 2,now(),now(),0);
+INSERT INTO bookings VALUES(10, 1,now(),now(),0);
 SELECT * FROM bookings;
 
 INSERT INTO customers VALUES(1, "rodrigogalvan@gmail.com");
@@ -59,16 +59,16 @@ INSERT INTO people VALUES(9, "TEST01025802", "Maclovio", "Aco Domingues", "1999-
 INSERT INTO people VALUES(10, "TEST0102432", "Mario", "Cantu Lopez", "1999-10-03", "test10@gmail.com");
 SELECT * FROM people;
 
-INSERT INTO reservations VALUES(1,10);
-INSERT INTO reservations VALUES(2,9);
-INSERT INTO reservations VALUES(3,8);
-INSERT INTO reservations VALUES(4,7);
-INSERT INTO reservations VALUES(5,6);
-INSERT INTO reservations VALUES(6,5);
-INSERT INTO reservations VALUES(7,4);
-INSERT INTO reservations VALUES(8,3);
-INSERT INTO reservations VALUES(9,2);
-INSERT INTO reservations VALUES(10,1);
+INSERT INTO reservations VALUES(1,10,0);
+INSERT INTO reservations VALUES(2,9,0);
+INSERT INTO reservations VALUES(3,8,0);
+INSERT INTO reservations VALUES(4,7,0);
+INSERT INTO reservations VALUES(5,6,0);
+INSERT INTO reservations VALUES(6,5,0);
+INSERT INTO reservations VALUES(7,4,0);
+INSERT INTO reservations VALUES(8,3,0);
+INSERT INTO reservations VALUES(9,2,0);
+INSERT INTO reservations VALUES(10,1,0);
 SELECT * FROM reservations;
 
 INSERT INTO payments VALUES(1,"CREDIT","1234-1234-1234-1234",6, 1,1);
