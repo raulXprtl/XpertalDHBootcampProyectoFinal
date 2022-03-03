@@ -43,10 +43,6 @@ public class BookingServiceImpl implements BookingService {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.addMappings(new BookingMap());
 
-        // Night count excludes the end date.
-        int nights = ((int) request.getBooking().getDateFrom().until(
-                request.getBooking().getDateTo(), ChronoUnit.DAYS));
-
         // Filters hotels with request parameters.
         Stream<Hotel> hotelStream = filterHotels(
                 request.getBooking().getDateFrom(),
