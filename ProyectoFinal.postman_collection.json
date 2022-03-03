@@ -1,0 +1,734 @@
+{
+	"info": {
+		"_postman_id": "3873a257-89f1-46c5-9aef-0c1ee8e9053f",
+		"name": "ProyectoFinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hotels",
+			"item": [
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "saveNewHotel",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hotelCode\": 11,\r\n    \"name\": \"Hotel Palenque\",\r\n    \"place\": \"Palenque\",\r\n    \"roomType\": \"King Size\",\r\n    \"roomPrice\": 1000.0,\r\n    \"disponibilityDateFrom\": \"01/01/2022\",\r\n    \"disponibilityDateTo\": \"10/01/2022\",\r\n    \"isBooking\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotels/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotels",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "updateHotel",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"roomType\": \"Double\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotels/edit?hotelCode=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotels",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "hotelCode",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getHotels",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotels",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAvailableHotels",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/hotels?dateFrom=02/02/2022&dateTo=04/02/2022&destination=Monterrey",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotels"
+									],
+									"query": [
+										{
+											"key": "dateFrom",
+											"value": "02/02/2022"
+										},
+										{
+											"key": "dateTo",
+											"value": "04/02/2022"
+										},
+										{
+											"key": "destination",
+											"value": "Monterrey"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "deleteHotel",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/hotels/delete?hotelCode=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotels",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "hotelCode",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Flights",
+			"item": [
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "saveNewFlight",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"flightNumber\": 11,\r\n    \"name\": \"Test\",\r\n    \"origin\": \"Monterrey\",\r\n    \"destination\": \"Guadalajara\",\r\n    \"seatType\": \"Business\",\r\n    \"flightPrice\": 1500.0,\r\n    \"goingDate\": \"04/07/2022\",\r\n    \"returnDate\": \"11/07/2022\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/flights/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flights",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "updateFlight",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"flightNumber\": 11,\r\n    \"name\": \"Test2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/flights/edit?flightNumber=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flights",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "flightNumber",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getFlights",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/flights",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flights"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getFlightsAvailable",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/flights?dateFrom=03/07/2022&dateTo=09/07/2022&origin=CDMX&destination=Monterey",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flights"
+									],
+									"query": [
+										{
+											"key": "dateFrom",
+											"value": "03/07/2022"
+										},
+										{
+											"key": "dateTo",
+											"value": "09/07/2022"
+										},
+										{
+											"key": "origin",
+											"value": "CDMX"
+										},
+										{
+											"key": "destination",
+											"value": "Monterey"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "deleteFlight",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/flights/delete?flightNumber=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flights",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "flightNumber",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "bookHotel",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"booking\" : {\r\n    \"dateFrom\" : \"01/05/2022\",\r\n    \"dateTo\" : \"05/05/2022\",\r\n    \"destination\" : \"Sonora\",\r\n    \"hotelCode\" : 5,\r\n    \"peopleAmount\" : 2,\r\n    \"roomType\" : \"Doble\",\r\n    \"people\" : [\r\n      {\r\n        \"dni\" : \"12345671\",\r\n        \"firstname\" : \"Pepito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1982\",\r\n        \"mail\" : \"arjonamiguel@gmail.com\"\r\n      },\r\n      {\r\n        \"dni\" : \"13345671\",\r\n        \"firstname\" : \"Fulanito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1983\",\r\n        \"mail\" : \"arjonamiguel2@gmail.com\"\r\n      }\r\n    ],\r\n    \"paymentMethod\" : {\r\n      \"type\" : \"CREDIT\",\r\n      \"number\" : \"1234-1234-1234-1234\",\r\n      \"dues\" : 6\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bookHotel Duplicate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"booking\" : {\r\n    \"dateFrom\" : \"10/02/2022\",\r\n    \"dateTo\" : \"20/03/2022\",\r\n    \"destination\" : \"Puerto Iguazú\",\r\n    \"hotelCode\" : \"CH-0002\",\r\n    \"peopleAmount\" : 2,\r\n    \"roomType\" : \"Doble\",\r\n    \"people\" : [\r\n      {\r\n        \"dni\" : \"12345678\",\r\n        \"name\" : \"Pepito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1982\",\r\n        \"mail\" : \"arjonamiguel@gmail.com\"\r\n      },\r\n      {\r\n        \"dni\" : \"13345678\",\r\n        \"name\" : \"Fulanito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1983\",\r\n        \"mail\" : \"arjonamiguel2@gmail.com\"\r\n      }\r\n    ],\r\n    \"paymentMethod\" : {\r\n      \"type\" : \"CREDIT\",\r\n      \"number\" : \"1234-1234-1234-1234\",\r\n      \"dues\" : 6\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bookHotel NoSuchElement dateTo=25/03",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"booking\" : {\r\n    \"dateFrom\" : \"10/02/2022\",\r\n    \"dateTo\" : \"25/03/2022\",\r\n    \"destination\" : \"Puerto Iguazú\",\r\n    \"hotelCode\" : \"CH-0002\",\r\n    \"peopleAmount\" : 2,\r\n    \"roomType\" : \"Doble\",\r\n    \"people\" : [\r\n      {\r\n        \"dni\" : \"12345678\",\r\n        \"name\" : \"Pepito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1982\",\r\n        \"mail\" : \"arjonamiguel@gmail.com\"\r\n      },\r\n      {\r\n        \"dni\" : \"13345678\",\r\n        \"name\" : \"Fulanito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1983\",\r\n        \"mail\" : \"arjonamiguel2@gmail.com\"\r\n      }\r\n    ],\r\n    \"paymentMethod\" : {\r\n      \"type\" : \"CREDIT\",\r\n      \"number\" : \"1234-1234-1234-1234\",\r\n      \"dues\" : 6\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "updateBooking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"booking\" : {\r\n    \"dateFrom\" : \"03/05/2022\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking/edit?id=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getBookings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "deleteBooking",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/hotel-booking/delete?id=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"hotel-booking",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Reservations",
+			"item": [
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "reserveFlight",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"flightReservation\" : {\r\n    \"reservationId\" : 11,\r\n    \"goingDate\" : \"01/08/2022\",\r\n    \"returnDate\" : \"09/08/2022\",\r\n    \"origin\" : \"Monterrey\",\r\n    \"destination\" : \"Tamaulipas\",\r\n    \"flightNumber\" : 6,\r\n    \"seats\" : 2,\r\n    \"seatType\" : \"Confort\",\r\n    \"people\" : [\r\n      {\r\n        \"dni\" : \"12345675\",\r\n        \"firstname\" : \"Pepito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1982\",\r\n        \"mail\" : \"arjonamiguel@gmail.com\"\r\n      },\r\n      {\r\n        \"dni\" : \"13345675\",\r\n        \"firstname\" : \"Fulanito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1983\",\r\n        \"mail\" : \"arjonamiguel2@gmail.com\"\r\n      }\r\n    ],\r\n    \"paymentMethod\" : {\r\n      \"type\" : \"CREDIT\",\r\n      \"number\" : \"1234-1234-1234-1234\",\r\n      \"dues\" : 6\r\n    }\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/flight-reservation/new",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flight-reservation",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reserveFlight NoSuchElement Business",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\" : \"arjonamiguel@gmail.com\",\r\n  \"flightReservation\" : {\r\n    \"dateFrom\" : \"10/02/2022\",\r\n    \"dateTo\" : \"15/02/2022\",\r\n    \"origin\" : \"Buenos Aires\",\r\n    \"destination\" : \"Puerto Iguazú\",\r\n    \"flightNumber\" : \"BAPI-1235\",\r\n    \"seats\" : 2,\r\n    \"seatType\" : \"Business\",\r\n    \"people\" : [\r\n      {\r\n        \"dni\" : \"12345678\",\r\n        \"name\" : \"Pepito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1982\",\r\n        \"mail\" : \"arjonamiguel@gmail.com\"\r\n      },\r\n      {\r\n        \"dni\" : \"13345678\",\r\n        \"name\" : \"Fulanito\",\r\n        \"lastname\" : \"Gomez\",\r\n        \"birthDate\" : \"10/11/1983\",\r\n        \"mail\" : \"arjonamiguel2@gmail.com\"\r\n      }\r\n    ],\r\n    \"paymentMethod\" : {\r\n      \"type\" : \"CREDIT\",\r\n      \"number\" : \"1234-1234-1234-1234\",\r\n      \"dues\" : 6\r\n    }\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/flight-reservation",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flight-reservation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "updateReservation",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"flightReservation\" : {\r\n        \"seats\": 2,\r\n        \"people\": [\r\n            {\r\n                \"dni\": \"TEST0102453\",\r\n                \"firstname\": \"Mario\",\r\n                \"lastname\": \"Cantu Lopez\",\r\n                \"birthDate\": \"03/10/1999\",\r\n                \"mail\": \"test10@gmail.com\"\r\n            },\r\n            {\r\n                \"dni\": \"TEST0102454\",\r\n                \"firstname\": \"Mario\",\r\n                \"lastname\": \"Cantu Lopez\",\r\n                \"birthDate\": \"03/10/1999\",\r\n                \"mail\": \"test10@gmail.com\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/flight-reservation/edit?id=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flight-reservation",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "getReservations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/flight-reservation",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flight-reservation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/flight-reservation/delete?id=11",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"flight-reservation",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
