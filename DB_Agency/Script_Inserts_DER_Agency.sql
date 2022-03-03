@@ -37,7 +37,7 @@ INSERT INTO customers VALUES(10 ,"Adrian Perez");
 SELECT * FROM customers;
 
 USE agency_db;
-INSERT INTO flights VALUES(1, "VUE123", "Monterey", "Queretaro", "2022-03-03", "2022-03-09", "Turista", 2000.00);
+INSERT INTO flights VALUES(1, "VUE123", "Monterrey", "Queretaro", "2022-03-03", "2022-03-09", "Turista", 2000.00);
 INSERT INTO flights VALUES(2, "VUE234", "Cancun", "CDMX", "2022-04-03", "2022-04-09", "VIP", 3000.00);
 INSERT INTO flights VALUES(3, "VUE456", "Queretaro", "CDMX", "2022-05-03", "2022-05-09", "Confort", 1500.00);
 INSERT INTO flights VALUES(4, "VUE645", "Acapulco", "CDMX", "2022-06-03", "2022-06-09", "Turista", 1000.00);
